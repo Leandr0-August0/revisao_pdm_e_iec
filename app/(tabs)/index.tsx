@@ -1,11 +1,24 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, FlatList } from 'react-native';
 
 import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
+import { Card } from '@/components/card';
+
+interface listProps {
+  id: number;
+  title: string;
+  description: string;
+}
+
+const list: listProps[] = [
+  { id: 1, title: 'Card 1', description: 'This is a card' },
+  { id: 2, title: 'Card 2', description: 'This is a card' },
+  { id: 3, title: 'Card 3', description: 'This is a card' },
+]
 
 export default function HomeScreen() {
   return (
@@ -22,6 +35,14 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
+        <FlatList
+          data={list}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Card title={item.title} description={item.description} image="https://via.placeholder.com/150" onPress={() => alert(item.title + ' pressed')} />
+          )}
+        />
+        <Card title="Card 1" description="This is a card" image="https://via.placeholder.com/150" onPress={() => alert('Card 1 pressed')} />
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
           Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
